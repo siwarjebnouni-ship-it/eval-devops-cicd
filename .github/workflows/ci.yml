@@ -1,0 +1,21 @@
+name: CI - Tests HTML
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  test-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Vérifier que index.html existe
+        run: test -f index.html
+
+      - name: Vérifier le title
+        run: grep -q "<title>Eval DevOps</title>" index.html
+
+      - name: Vérifier le H1
+        run: grep -q "<h1>TP DevOps</h1>" index.html
