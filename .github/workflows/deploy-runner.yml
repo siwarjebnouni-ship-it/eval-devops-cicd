@@ -1,0 +1,21 @@
+name: CD2 - Deploy on Self-Hosted Runner
+
+on:
+  workflow_run:
+    workflows: ["CI - Tests HTML"]
+    types:
+      - completed
+
+jobs:
+  deploy-runner:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: [self-hosted, linux, deploy]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to local folder
+        run: |
+          mkdir -p /var/www/eval-devops
+          cp index.html /var/www/eval-devops/
+          echo "Deployment completed"
